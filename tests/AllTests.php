@@ -12,6 +12,8 @@
  * @author erenon
  */
 
+require_once 'application/AllTests.php';
+
 /**
  * This class is the root of all tests.
  *
@@ -29,11 +31,11 @@ class AllTests
      * Includes all tests
      *
      * @return PHPUnit_Framework_TestSuite
-     * @ticket 1
      */
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Light');
+        $suite->addTest(Application_AllTests::suite());
 
         return $suite;
     }
