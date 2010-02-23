@@ -20,7 +20,8 @@
  * @author erenon
  *
  */
-class Application_Modules_Default_Services_PageTest extends PHPUnit_Framework_TestCase
+class Application_Modules_Default_Services_PageTest
+      extends PHPUnit_Framework_TestCase
 {
     /**
      * Tests getPage
@@ -29,7 +30,7 @@ class Application_Modules_Default_Services_PageTest extends PHPUnit_Framework_Te
     public function testGetPage()
     {
         $this->markTestIncomplete(
-          'getPage interface is not well defined yet.'
+            'getPage interface is not well defined yet.'
         );
     }
 }
