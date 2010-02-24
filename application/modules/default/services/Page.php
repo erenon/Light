@@ -25,7 +25,7 @@ class Default_Service_Page
 
     public function getPage()
     {
-        if(null === $this->_page) {
+        if (null === $this->_page) {
             $this->setPage(new Default_Model_Page());
         }
 
