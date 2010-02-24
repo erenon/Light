@@ -9,6 +9,7 @@
  * @author erenon
  */
 
+require_once '../application/modules/default/services/Page.php';
 
 /**
  * Default_Services_Page test suite
@@ -19,18 +20,48 @@
  * @license New BSD License
  * @author erenon
  *
+ * @group Light_Service_Page
+ *
  */
 class Application_Modules_Default_Services_PageTest
       extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tests getPage
+     * Test getters and setters
      *
+     * @see http://github.com/erenon/Light/issues#issue/1
+     * @ticket 1
      */
-    public function testGetPage()
+    public function testGetSetPage()
     {
-        $this->markTestIncomplete(
-            'getPage interface is not well defined yet.'
-        );
+        $pageModel = $this->getMock('Default_Model_Page');
+
+        $pageService = new Default_Service_Page();
+        $pageService->setPage($pageModel);
+
+        $returnedPageModel = $pageService->getPage();
+
+        $this->assertEquals($pageModel, $returnedPageModel);
+    }
+
+    /**
+     * Test if Service's find calls model's find with proper arguments
+     *
+     * @see http://github.com/erenon/Light/issues#issue/2
+     * @ticket 2
+     */
+    public function testFindGetCalled()
+    {
+        $pageModel = $this->getMock('Default_Model_Page',
+                                    array('find'));
+
+        $pageModel->expects($this->once())
+                  ->method('find')
+                  ->with('content-Foo', 'language-ÁŰ');
+
+        $pageService = new Default_Service_Page();
+        $pageService->setPage($pageModel);
+
+        $pageService->find('content-Foo', 'language-ÁŰ');
     }
 }
