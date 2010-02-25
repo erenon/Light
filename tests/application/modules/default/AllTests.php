@@ -10,6 +10,7 @@
  */
 
 require_once 'application/modules/default/services/AllTests.php';
+require_once 'application/modules/default/models/AllTests.php';
 
 /**
  * Application_Module_Default tests
@@ -33,6 +34,7 @@ class Application_Modules_Default_AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Light_Application_Modules_Default');
         $suite->addTest(Application_Modules_Default_ServicesAllTests::suite());
+        $suite->addTest(Application_Modules_Default_ModelsAllTests::suite());
 
         return $suite;
     }
