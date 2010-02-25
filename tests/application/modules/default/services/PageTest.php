@@ -1,6 +1,6 @@
 <?php
 /**
- * Default_Services_Page test
+ * Default_Service_Page test
  *
  * @category   Light
  * @package    Light_Test
@@ -12,22 +12,22 @@
 require_once '../application/modules/default/services/Page.php';
 
 /**
- * Default_Services_Page test suite
+ * Default_Service_Page test suite
  *
  * @category Light
  * @package Light_Test
- * @subpackage Service_tests
+ * @subpackage Light_Test_Page
  * @license New BSD License
  * @author erenon
  *
- * @group Light_Service_Page
+ * @group Light_Page
  *
  */
 class Application_Modules_Default_Services_PageTest
       extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test getters and setters
+     * Test $_page getters and setters
      *
      * @see http://github.com/erenon/Light/issues#issue/1
      * @ticket 1

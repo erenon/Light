@@ -2,16 +2,29 @@
 /**
  * Page Service
  *
- * Should provide text contents through solid interface,
- * based on content identifier and language.
- *
  * @category   Light
  * @package    Light_Page
  * @subpackage Light_Page_Service
- * @license    BSD License
+ * @license    New BSD License
  * @version    $Id$
- * @author     erenon
- * @see	       http://wiki.github.com/erenon/Light/module-default
+ * @author erenon
+ */
+
+
+/**
+ * Page Service
+ *
+ * Should provide text contents through solid interface,
+ * based on content identifier and language.
+ *
+ * @category Light
+ * @package Light_Page
+ * @subpackage Light_Page_Service
+ * @license New BSD License
+ * @author erenon
+ *
+ * @todo Improve doc
+ *
  */
 class Default_Service_Page
 {
