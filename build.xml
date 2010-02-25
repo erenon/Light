@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Light" basedir=".">
+	
+	<!--
+	Executes the project unit tests.
+	-->
+	<target name="test" description="PHPUnit, php unittester">
+		<exec executable="phpunit" dir="${basedir}/tests">
+			<arg line="AllTests.php" />
+		</exec>
+	</target>
+	
+	<!--
+	Execute code sniffer. Zend standard used.
+	-->
+	<target name="cs" description="PHP coding standard checker">
+		<exec executable="phpcs" dir="${basedir}" >
+			<arg line="
+				 --standard=Zend
+				. "/>
+		</exec>
+	</target>
+</project>
