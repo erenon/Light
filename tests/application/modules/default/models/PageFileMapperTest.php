@@ -131,4 +131,37 @@ class Application_Modules_Default_Models_PageFileMapperTest
 
         $mapper->find($lang, $contentAlias, $pageModel);
     }
+
+    /**
+     * Test filterContentAlias
+     *
+     * @param string $untrustedAlias
+     * @param string $filteredAlias
+     * @dataProvider aliasProvider
+     */
+    public function testFilterContentAlias($untrustedAlias, $filteredAlias)
+    {
+        $mapper = new Default_Model_PageFileMapper();
+
+        $this->assertEquals($filteredAlias,
+                            $mapper->filterContentAlias($untrustedAlias));
+    }
+
+    public function aliasProvider()
+    {
+        return array(
+            array('normalAlias', 'normalAlias'),
+            array('file.txt', 'file.txt'),
+            array('file.html', 'file.html'),
+            array('file.php', 'file'),
+            array('file.php.php', 'filephp'),
+            array('../file', 'file'),
+            array('../../../../file', 'file'),
+            array("file%00", 'file00'),
+            //array('Fájl', 'Fájl'), //mulibyte chars are not allowed
+            array('numb3rs', 'numb3rs'),
+            array('under_scored', 'under_scored'),
+            array('dash-ed', 'dash-ed')
+        );
+    }
 }

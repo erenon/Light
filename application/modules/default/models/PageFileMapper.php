@@ -63,6 +63,29 @@ class Default_Model_PageFileMapper
     }
 
     /**
+     * Filters malicious filenames to prevent directory traversals, R/LFI, etc.
+     *
+     * @param string $alias
+     * @return string filtered alias
+     */
+    public function filterContentAlias($alias)
+    {
+        $info = pathinfo($alias);
+
+        $file = preg_replace('/[^a-zA-Z0-9_\-]*/', '', $info['filename']);
+
+        $allowedExts = array('txt', 'html');
+
+        if (    isset($info['extension'])
+            AND in_array($info['extension'], $allowedExts)
+        ) {
+            $file = $file . '.' . $info['extension'];
+        }
+
+        return $file;
+    }
+
+    /**
      * Reads content from the filesystem based on the given contentAlias and language.
      *
      * @param string $contentAlias
