@@ -11,6 +11,7 @@
  */
 
 require_once 'application/modules/default/models/PageTest.php';
+require_once 'application/modules/default/models/PageFileMapperTest.php';
 
 /**
  * Application_Modules_Default_Models tests
@@ -35,6 +36,7 @@ class Application_Modules_Default_ModelsAllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Light_Application_Modules_Default_Models');
         $suite->addTestSuite('Application_Modules_Default_Models_PageTest');
+        $suite->addTestSuite('Application_Modules_Default_Models_PageFileMapperTest');
 
         return $suite;
     }
