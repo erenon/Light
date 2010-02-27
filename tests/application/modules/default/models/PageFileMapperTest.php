@@ -43,6 +43,8 @@ class Application_Modules_Default_Models_PageFileMapperTest
     /**
      * find($contentAlias, $lang) should read the file under
      * {page_root}/$lang/$contentAlias
+     * @todo refactor vfsSW preaparations into separate method
+     * @todo add testFindNoTitle
      */
     public function testFind()
     {
@@ -90,5 +92,30 @@ class Application_Modules_Default_Models_PageFileMapperTest
 
         $this->assertEquals($content,
                             $pageModel->getContent());
+    }
+
+    /**
+     * Test exception if invalid path given
+     * @expectedException Exception
+     */
+    public function testFindInvalid()
+    {
+        //prepare vfs
+        //setup vfsSW, root directory
+        vfsStreamWrapper::register();
+        vfsStreamWrapper::setRoot(new vfsStreamDirectory('directoryRootInvalid'));
+
+        //define root directory
+        $directoryRoot = vfsStream::url('directoryRootInvalid');
+
+        //setup mapper
+        $mapper = new Default_Model_PageFileMapper();
+        $mapper->setDirectoryRoot($directoryRoot);
+
+        $lang = 'BarInvalid';
+        $contentAlias = 'FooInvalid';
+        $pageModel = new Default_Model_Page();
+
+        $mapper->find($lang, $contentAlias, $pageModel);
     }
 }
