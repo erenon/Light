@@ -40,25 +40,9 @@ class Application_Modules_Default_Models_PageFileMapperTest
         $this->assertEquals($directoryRoot,
                            $mapper->getDirectoryRoot());
     }
-    /**
-     * find($contentAlias, $lang) should read the file under
-     * {page_root}/$lang/$contentAlias
-     * @todo refactor vfsSW preaparations into separate method
-     * @todo add testFindNoTitle
-     */
-    public function testFind()
+
+    protected function _initVirtualBackend($lang)
     {
-        //contentAlias
-        $contentAlias = 'Bar';
-
-        //language
-        $lang = 'Foo';
-
-        $title = 'Title of BAR';
-        $content = "Content of Bar\nMultiline\nContains unicode: ÁÉŰŐ";
-
-        $fileContent = $title . "\n" . $content;
-
         //prepare vfs
         //setup vfsSW, root directory
         vfsStreamWrapper::register();
@@ -72,8 +56,35 @@ class Application_Modules_Default_Models_PageFileMapperTest
               0700,
               true);
 
-        $contentPath = $contentDirectory . DIRECTORY_SEPARATOR . $contentAlias;
+        return array($directoryRoot, $contentDirectory);
+    }
 
+    public function contentProvider()
+    {
+        return array(
+            array('Bar', 'Foo', 'Title of BAR', "Content of Bar\nMultiline\nContains unicode: ÁÉŰŐ"),
+            array('Bar', 'Foo', null, "Content of Bar-single lined, contains no newline")
+        );
+    }
+    /**
+     * find($contentAlias, $lang) should read the file under
+     * {page_root}/$lang/$contentAlias
+     * @dataProvider contentProvider
+     */
+    public function testFind($contentAlias, $lang, $title, $content)
+    {
+        if (isset($title)) {
+            $fileContent = $title . "\n" . $content;
+        } else {
+            $fileContent = $content;
+        }
+
+        //setup vfs
+        $virtualDir = $this->_initVirtualBackend($lang);
+        $directoryRoot = $virtualDir[0];
+        $contentDirectory = $virtualDir[1];
+
+        $contentPath = $contentDirectory . DIRECTORY_SEPARATOR . $contentAlias;
         file_put_contents($contentPath, $fileContent);
 
         //set root directory
@@ -84,8 +95,10 @@ class Application_Modules_Default_Models_PageFileMapperTest
 
         $mapper->find($contentAlias, $lang, $pageModel);
 
-        $this->assertEquals($title,
-                            $pageModel->getTitle());
+        if (isset($title)) {
+            $this->assertEquals($title,
+                                $pageModel->getTitle());
+        }
 
         $this->assertEquals($contentAlias,
                             $pageModel->getAlias());
