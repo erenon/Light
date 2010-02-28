@@ -28,7 +28,12 @@
  */
 class Default_Service_Page
 {
+    const BACKEND_FILE = 'File';
+    const BACKEND_DATABASE = 'Database';
+
     private $_page;
+    private $_mapper;
+    private $_backend;
 
     public function setPage(Default_Model_Page $page)
     {
@@ -38,15 +43,55 @@ class Default_Service_Page
 
     public function getPage()
     {
-        if (null === $this->_page) {
-            $this->setPage(new Default_Model_Page());
+        if ($this->_page instanceOf Default_Model_Page) {
+            return $this->_page;
+        } else {
+            return new Default_Model_Page();
+        }
+    }
+
+    public function setMapper(/*Default_Model_PageMapperInterface*/ $mapper)
+    {
+        $this->_mapper = $mapper;
+        return $this;
+    }
+
+    public function getMapper()
+    {
+        if (null === $this->_mapper) {
+            $this->setMapper(new Default_Model_PageFileMapper());
+        }
+        return $this->_mapper;
+    }
+
+    public function setBackend($backend)
+    {
+        switch ($backend) {
+            case self::BACKEND_FILE:
+                $this->_backend = self::BACKEND_FILE;
+                $this->setMapper(new Default_Model_PageFileMapper());
+                break;
+
+            case self::BACKEND_DATABASE:
+                $this->_backend = self::BACKEND_DATABASE;
+                $this->setMapper(new Default_Model_PageDbMapper());
+                break;
+
+            default:
+                throw new Exception('Wrong backend type given');
+                break;
         }
 
-        return $this->_page;
+        return $this;
+    }
+
+    public function getBackend()
+    {
+        return $this->_backend;
     }
 
     public function find($contentAlias, $lang)
     {
-        return $this->_page->find($contentAlias, $lang);
+        return $this->getMapper()->find($contentAlias, $lang, $this->getPage());
     }
 }

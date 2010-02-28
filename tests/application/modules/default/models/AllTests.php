@@ -35,7 +35,7 @@ class Application_Modules_Default_ModelsAllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Light_Application_Modules_Default_Models');
-        $suite->addTestSuite('Application_Modules_Default_Models_PageTest');
+        //$suite->addTestSuite('Application_Modules_Default_Models_PageTest');
         $suite->addTestSuite('Application_Modules_Default_Models_PageFileMapperTest');
 
         return $suite;

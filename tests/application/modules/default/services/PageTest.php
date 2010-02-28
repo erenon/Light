@@ -39,28 +39,62 @@ class Application_Modules_Default_Services_PageTest
         $pageService = new Default_Service_Page();
         $pageService->setPage($pageModel);
 
-        $returnedPageModel = $pageService->getPage();
-
-        $this->assertEquals($pageModel, $returnedPageModel);
+        $this->assertEquals($pageModel,
+                            $pageService->getPage());
     }
 
     /**
-     * Test if Service's find calls model's find with proper arguments
+     * Test if setBackend sets up the proper mapper
+     */
+    public function testSetBackend()
+    {
+        $pageService = new Default_Service_Page();
+
+        //test file backend
+        $this->getMock('Default_Model_PageFileMapper');
+
+        $pageService->setBackend(Default_Service_Page::BACKEND_FILE);
+        $this->assertThat($pageService->getMapper(),
+                          $this->isInstanceOf('Default_Model_PageFileMapper'));
+
+        //test database backend
+        $this->getMock('Default_Model_PageDbMapper');
+
+        $pageService->setBackend(Default_Service_Page::BACKEND_DATABASE);
+        $this->assertThat($pageService->getMapper(),
+                          $this->isInstanceOf('Default_Model_PageDbMapper'));
+    }
+
+    /**
+     * Throw exception if invalid backend given
+     * @expectedException Exception
+     */
+    public function testSetBackendInvalid()
+    {
+        $pageService = new Default_Service_Page();
+        $pageService->setBackend('invalid_backend');
+    }
+
+    /**
+     * Test if Service's find calls mapper's find with proper arguments
      *
      * @see http://github.com/erenon/Light/issues#issue/2
      * @ticket 2
      */
     public function testFindGetCalled()
     {
-        $pageModel = $this->getMock('Default_Model_Page',
+        $pageMapper = $this->getMock('Default_Model_PageMapperInterface',
                                     array('find'));
 
-        $pageModel->expects($this->once())
+        $pageModel = $this->getMock('Default_Model_Page');
+
+        $pageMapper->expects($this->once())
                   ->method('find')
-                  ->with('content-Foo', 'language-ÁŰ');
+                  ->with('content-Foo', 'language-ÁŰ', $pageModel);
 
         $pageService = new Default_Service_Page();
         $pageService->setPage($pageModel);
+        $pageService->setMapper($pageMapper);
 
         $pageService->find('content-Foo', 'language-ÁŰ');
     }
