@@ -159,7 +159,6 @@ class Application_Modules_Default_Models_PageFileMapperTest
             array('../../../../file', 'file'),
             array("file%00", 'file00'),
             //array('Fájl', 'Fájl'), //mulibyte chars are not allowed
-            //@todo what about the /u modifier?
             array('numb3rs', 'numb3rs'),
             array('under_scored', 'under_scored'),
             array('dash-ed', 'dash-ed')
