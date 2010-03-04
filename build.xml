@@ -20,4 +20,31 @@
 				. "/>
 		</exec>
 	</target>
+	
+	<!--
+	Generates the project documentation into the /tmp/light/doc directory.
+	Parameters:
+	-ue: Warn for undocumented elements
+	-t: Target directory
+	-o: Template to use
+	-s: Generate sourcecode
+	-pp: Parse private elements
+	-ti: Title
+	-dn: Default package name
+	-d: directory to parse
+	-ct: custom tags (comma separated)
+	-->
+	<target name="doc">
+		<exec executable="phpdoc" dir="${basedir}">
+		  <arg line="-ue on 
+		  		-t /tmp/light/doc 
+		  	    -o HTML:frames:earthli				
+				-s
+				-pp
+				-ct dataProvider,expectedException,ticket,group
+				-ti 'Light API documentation'
+				-dn 'Light'			     
+				-d ./"/>
+		</exec>
+	</target>
 </project>
