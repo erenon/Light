@@ -4,7 +4,7 @@
  *
  * @category   Light
  * @package    Light_Test
- * @subpackage Light_Test_Page
+ * @subpackage Page
  * @license    New BSD License
  * @version    $Id$
  * @author erenon

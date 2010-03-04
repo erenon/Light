@@ -4,7 +4,7 @@
  *
  * @category   Light
  * @package    Light_Page
- * @subpackage Light_Page_Mapper
+ * @subpackage Mapper
  * @license    New BSD License
  * @version    $Id$
  * @author erenon
@@ -18,12 +18,12 @@
  *
  * @category Light
  * @package Light_Page
- * @subpackage Light_Page_Mapper
+ * @subpackage Mapper
  * @license New BSD License
  * @author erenon
  *
  */
-class Default_Model_LightDbMapper
+class Default_Model_PageDbMapper
 {
 
 }

@@ -4,7 +4,7 @@
  *
  * @category   Light
  * @package    Light_Page
- * @subpackage Light_Page_Model
+ * @subpackage Model
  * @license    New BSD License
  * @version    $Id$
  * @author erenon
@@ -17,7 +17,7 @@
  *
  * @category Light
  * @package Light_Page
- * @subpackage Light_Page_Model
+ * @subpackage Model
  * @license New BSD License
  * @author erenon
  *
