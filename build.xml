@@ -38,8 +38,8 @@
 		<exec executable="phpdoc" dir="${basedir}">
 		  <arg line="-ue on 
 		  		-t /tmp/light/doc 
-		  	    -o HTML:frames:earthli				
-				-s
+		  	    -o HTML:frames:DOM/earthli			
+				-s on
 				-pp
 				-ct dataProvider,expectedException,ticket,group
 				-ti 'Light API documentation'
