@@ -4,7 +4,6 @@
  *
  * @category   Light
  * @package    Light_Test
- * @subpackage Models
  * @license    New BSD License
  * @version    $Id$
  * @author erenon
@@ -18,7 +17,6 @@ require_once 'application/modules/default/models/PageFileMapperTest.php';
  *
  * @category Light
  * @package Light_Test
- * @subpackage Models
  * @license New BSD License
  * @author erenon
  *
