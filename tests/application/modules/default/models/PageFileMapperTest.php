@@ -41,6 +41,14 @@ class Application_Modules_Default_Models_PageFileMapperTest
                            $mapper->getDirectoryRoot());
     }
 
+
+    /**
+     * Initalize virtual filesystem
+     *
+     * @param string $lang Used language
+     * @return multitype:string string Array of virtual directory root,
+     * 		and root of language specific contents
+     */
     protected function _initVirtualBackend($lang)
     {
         //prepare vfs
@@ -59,6 +67,9 @@ class Application_Modules_Default_Models_PageFileMapperTest
         return array($directoryRoot, $contentDirectory);
     }
 
+    /**
+     *
+     */
     public function contentProvider()
     {
         return array(
@@ -69,6 +80,8 @@ class Application_Modules_Default_Models_PageFileMapperTest
     /**
      * find($contentAlias, $lang) should read the file under
      * {page_root}/$lang/$contentAlias
+     *
+     * @uses _initVirtualBackend
      * @dataProvider contentProvider
      */
     public function testFind($contentAlias, $lang, $title, $content)
@@ -137,6 +150,7 @@ class Application_Modules_Default_Models_PageFileMapperTest
      *
      * @param string $untrustedAlias
      * @param string $filteredAlias
+     * @uses aliasProvider()
      * @dataProvider aliasProvider
      */
     public function testFilterContentAlias($untrustedAlias, $filteredAlias)
@@ -147,6 +161,11 @@ class Application_Modules_Default_Models_PageFileMapperTest
                             $mapper->filterContentAlias($untrustedAlias));
     }
 
+    /**
+     * Provides test data to testFilterContentAlias()
+     *
+     * @return multitype:multitype:string
+     */
     public function aliasProvider()
     {
         return array(

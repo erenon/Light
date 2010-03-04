@@ -23,8 +23,6 @@
  * @license New BSD License
  * @author erenon
  *
- * @todo Improve doc
- *
  */
 class Default_Service_Page
 {
