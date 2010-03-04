@@ -37,8 +37,10 @@ class Application_Modules_Default_Models_PageFileMapperTest
         $mapper = new Default_Model_PageFileMapper();
         $mapper->setDirectoryRoot($directoryRoot);
 
-        $this->assertEquals($directoryRoot,
-                           $mapper->getDirectoryRoot());
+        $this->assertEquals(
+            $directoryRoot,
+            $mapper->getDirectoryRoot()
+        );
     }
 
 
@@ -60,9 +62,11 @@ class Application_Modules_Default_Models_PageFileMapperTest
         $directoryRoot = vfsStream::url('directoryRoot');
 
         $contentDirectory = $directoryRoot . DIRECTORY_SEPARATOR . $lang;
-        mkdir($contentDirectory,
-              0700,
-              true);
+        mkdir(
+            $contentDirectory,
+            0700,
+            true
+        );
 
         return array($directoryRoot, $contentDirectory);
     }
@@ -73,8 +77,10 @@ class Application_Modules_Default_Models_PageFileMapperTest
     public function contentProvider()
     {
         return array(
-            array('Bar', 'Foo', 'Title of BAR', "Content of Bar\nMultiline\nContains unicode: ÁÉŰŐ"),
-            array('Bar', 'Foo', null, "Content of Bar-single lined, contains no newline")
+            array('Bar', 'Foo', 'Title of BAR',
+                  "Content of Bar\nMultiline\nContains unicode: ÁÉŰŐ"),
+            array('Bar', 'Foo', null,
+                  "Content of Bar-single lined, contains no newline")
         );
     }
     /**
@@ -109,15 +115,21 @@ class Application_Modules_Default_Models_PageFileMapperTest
         $mapper->find($contentAlias, $lang, $pageModel);
 
         if (isset($title)) {
-            $this->assertEquals($title,
-                                $pageModel->getTitle());
+            $this->assertEquals(
+                $title,
+                $pageModel->getTitle()
+            );
         }
 
-        $this->assertEquals($contentAlias,
-                            $pageModel->getAlias());
+        $this->assertEquals(
+            $contentAlias,
+            $pageModel->getAlias()
+        );
 
-        $this->assertEquals($content,
-                            $pageModel->getContent());
+        $this->assertEquals(
+            $content,
+            $pageModel->getContent()
+        );
     }
 
     /**
@@ -129,7 +141,9 @@ class Application_Modules_Default_Models_PageFileMapperTest
         //prepare vfs
         //setup vfsSW, root directory
         vfsStreamWrapper::register();
-        vfsStreamWrapper::setRoot(new vfsStreamDirectory('directoryRootInvalid'));
+        vfsStreamWrapper::setRoot(
+            new vfsStreamDirectory('directoryRootInvalid')
+        );
 
         //define root directory
         $directoryRoot = vfsStream::url('directoryRootInvalid');
@@ -157,8 +171,10 @@ class Application_Modules_Default_Models_PageFileMapperTest
     {
         $mapper = new Default_Model_PageFileMapper();
 
-        $this->assertEquals($filteredAlias,
-                            $mapper->filterContentAlias($untrustedAlias));
+        $this->assertEquals(
+            $filteredAlias,
+            $mapper->filterContentAlias($untrustedAlias)
+        );
     }
 
     /**

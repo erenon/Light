@@ -40,8 +40,10 @@ class Application_Modules_Default_Services_PageTest
         $pageService = new Default_Service_Page();
         $pageService->setPage($pageModel);
 
-        $this->assertEquals($pageModel,
-                            $pageService->getPage());
+        $this->assertEquals(
+            $pageModel,
+            $pageService->getPage()
+        );
     }
 
     /**
@@ -55,15 +57,19 @@ class Application_Modules_Default_Services_PageTest
         $this->getMock('Default_Model_PageFileMapper');
 
         $pageService->setBackend(Default_Service_Page::BACKEND_FILE);
-        $this->assertThat($pageService->getMapper(),
-                          $this->isInstanceOf('Default_Model_PageFileMapper'));
+        $this->assertThat(
+            $pageService->getMapper(),
+            $this->isInstanceOf('Default_Model_PageFileMapper')
+        );
 
         //test database backend
         $this->getMock('Default_Model_PageDbMapper');
 
         $pageService->setBackend(Default_Service_Page::BACKEND_DATABASE);
-        $this->assertThat($pageService->getMapper(),
-                          $this->isInstanceOf('Default_Model_PageDbMapper'));
+        $this->assertThat(
+            $pageService->getMapper(),
+            $this->isInstanceOf('Default_Model_PageDbMapper')
+        );
     }
 
     /**
@@ -84,8 +90,10 @@ class Application_Modules_Default_Services_PageTest
      */
     public function testFindGetCalled()
     {
-        $pageMapper = $this->getMock('Default_Model_PageMapperInterface',
-                                    array('find'));
+        $pageMapper = $this->getMock(
+            'Default_Model_PageMapperInterface',
+            array('find')
+        );
 
         $pageModel = $this->getMock('Default_Model_Page');
 

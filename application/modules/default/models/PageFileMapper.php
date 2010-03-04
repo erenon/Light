@@ -86,7 +86,8 @@ class Default_Model_PageFileMapper
     }
 
     /**
-     * Reads content from the filesystem based on the given contentAlias and language.
+     * Reads content from the filesystem
+     * based on the given contentAlias and language.
      *
      * @param string $contentAlias
      * @param string $lang
@@ -103,14 +104,17 @@ class Default_Model_PageFileMapper
                                   DIRECTORY_SEPARATOR .
                                   $contentAlias;
 
-        if( ! is_readable($filePath)) {
+        if ( ! is_readable($filePath)) {
             throw new Exception('File not found or not readable');
         }
 
         $file = file_get_contents($filePath);
 
-        $fileTitleContent = explode(self::TITLE_CONTENT_SEPARATOR,
-                                    $file, 2);
+        $fileTitleContent = explode(
+            self::TITLE_CONTENT_SEPARATOR,
+            $file,
+            2
+        );
 
         if (isset($fileTitleContent[1])) {
             //content has title

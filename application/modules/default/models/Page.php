@@ -20,6 +20,7 @@
  * @subpackage Model
  * @license New BSD License
  * @author erenon
+ * @todo improve doc
  *
  */
 class Default_Model_Page
