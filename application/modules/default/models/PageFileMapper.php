@@ -98,11 +98,11 @@ class Default_Model_PageFileMapper
      */
     public function find($contentAlias, $lang, Default_Model_Page $page)
     {
-        $filePath = $this->getDirectoryRoot() .
-                                  DIRECTORY_SEPARATOR .
-                                  $lang .
-                                  DIRECTORY_SEPARATOR .
-                                  $contentAlias;
+        $filePath = $this->getDirectoryRoot()
+                  . DIRECTORY_SEPARATOR
+                  . $lang
+                  . DIRECTORY_SEPARATOR
+                  . $contentAlias;
 
         if ( ! is_readable($filePath)) {
             throw new Exception('File not found or not readable');
