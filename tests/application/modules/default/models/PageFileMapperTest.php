@@ -72,7 +72,7 @@ class Application_Modules_Default_Models_PageFileMapperTest
     }
 
     /**
-     *
+     * Provides test data to testFind()
      */
     public function contentProvider()
     {
@@ -88,6 +88,7 @@ class Application_Modules_Default_Models_PageFileMapperTest
      * {page_root}/$lang/$contentAlias
      *
      * @uses _initVirtualBackend
+     * @uses contentProvider
      * @dataProvider contentProvider
      */
     public function testFind($contentAlias, $lang, $title, $content)
