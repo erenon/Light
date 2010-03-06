@@ -91,8 +91,13 @@ class Application_Modules_Default_Models_PageFileMapperTest
     {
         return array(
             array('Bar', 'Foo', 'Title of BAR',
-                  "Content of Bar\nMultiline\nContains unicode: ÁÉŰŐ"),
-            array('Bar', 'Foo', null,
+                  "Content of Bar\nMultiline\nContains unicode: ÁÉŰŐ",
+                  'Title of BAR'
+                  . Default_Model_PageFileMapper::TITLE_CONTENT_SEPARATOR
+                  . "Content of Bar\nMultiline\nContains unicode: ÁÉŰŐ"),
+
+            array('Bar2', 'Foo2', null,
+                  "Content of Bar-single lined, contains no newline",
                   "Content of Bar-single lined, contains no newline")
         );
     }
@@ -104,13 +109,13 @@ class Application_Modules_Default_Models_PageFileMapperTest
      * @uses contentProvider
      * @dataProvider contentProvider
      */
-    public function testFind($contentAlias, $lang, $title, $content)
+    public function testFind($contentAlias, $lang, $title, $content, $fileContent)
     {
-        if (isset($title)) {
+        /*if (isset($title)) {
             $fileContent = $title . "\n" . $content;
         } else {
             $fileContent = $content;
-        }
+        }*/
 
         //setup vfs
         $directoryRoot = $this->_getVirtualFsRoot('directoryRoot');
@@ -144,6 +149,11 @@ class Application_Modules_Default_Models_PageFileMapperTest
         $this->assertEquals(
             $content,
             $pageModel->getContent()
+        );
+
+        $this->assertEquals(
+            $lang,
+            $pageModel->getLanguage()
         );
     }
 
@@ -205,6 +215,48 @@ class Application_Modules_Default_Models_PageFileMapperTest
             array('numb3rs', 'numb3rs'),
             array('under_scored', 'under_scored'),
             array('dash-ed', 'dash-ed')
+        );
+    }
+
+    /**
+     *
+     * @dataProvider contentProvider
+     */
+    public function testSave($contentAlias, $lang, $title, $content, $fileContent)
+    {
+        $model = new Default_Model_Page();
+        $model->setAlias($contentAlias)
+              ->setTitle($title)
+              ->setContent($content)
+              ->setLanguage($lang);
+
+        $mapper = new Default_Model_PageFileMapper();
+
+        $directoryRoot = $this->_getVirtualFsRoot('dirToSave');
+
+        /*mkdir(
+            $directoryRoot . DIRECTORY_SEPARATOR . $lang,
+            0700,
+            true
+        );*/
+
+        $mapper->setDirectoryRoot($directoryRoot);
+
+        $mapper->save($model);
+
+        $fileUri = $directoryRoot
+                 . DIRECTORY_SEPARATOR
+                 . $lang
+                 . DIRECTORY_SEPARATOR
+                 . $contentAlias;
+
+        //var_dump(scandir($directoryRoot));
+
+        $this->assertFileExists($fileUri);
+
+        $this->assertEquals(
+            $fileContent,
+            file_get_contents($fileUri)
         );
     }
 }

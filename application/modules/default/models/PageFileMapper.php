@@ -22,6 +22,7 @@
  * @license New BSD License
  * @author erenon
  *
+ * @todo improve doc
  */
 class Default_Model_PageFileMapper
 {
@@ -131,7 +132,59 @@ class Default_Model_PageFileMapper
         }
 
         $page->setAlias($contentAlias);
+        $page->setLanguage($lang);
 
         return $page;
+    }
+
+    public function save(Default_Model_Page $page)
+    {
+        $fileUri = $this->getDirectoryRoot()
+                 . DIRECTORY_SEPARATOR
+                 . $page->getLanguage()
+                 . DIRECTORY_SEPARATOR
+                 . $page->getAlias();
+
+        $fileContent = $this->_contentFromTitleAndContent(
+            $page->getTitle(),
+            $page->getContent()
+        );
+
+        $this->_createDirIfNeeded($page->getLanguage());
+
+        file_put_contents(
+            $fileUri,
+            $fileContent
+        );
+    }
+
+    private function _createDirIfNeeded($dir)
+    {
+        $root = $this->getDirectoryRoot();
+        $neededDir = $root
+                   . DIRECTORY_SEPARATOR
+                   . $dir;
+
+        if (false === is_dir($neededDir)) {
+            mkdir(
+                $neededDir,
+                0700,
+                true
+            );
+        }
+
+        return true;
+    }
+
+    private function _contentFromTitleAndContent($title, $content)
+    {
+        if (false != $title) {
+            $content = $title
+                     . self::TITLE_CONTENT_SEPARATOR
+                     . $content;
+
+        }
+
+        return $content;
     }
 }
