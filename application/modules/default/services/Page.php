@@ -113,7 +113,7 @@ class Default_Service_Page
      *
      * @param string $backend
      * @return $this
-     * @throws Exception If the backend type was wrong
+     * @throws Light_Exception_InvalidParameters If the backend type was wrong
      * @uses Default_Service_Page::BACKEND_FILE
      * @uses Default_Service_Page::BACKEND_DATABASE
      */
@@ -131,7 +131,8 @@ class Default_Service_Page
                 break;
 
             default:
-                throw new Exception('Wrong backend type given');
+                require_once 'Light/Exception/InvalidParameters.php';
+                throw new Light_Exception_InvalidParameters('Wrong backend type given');
                 break;
         }
 

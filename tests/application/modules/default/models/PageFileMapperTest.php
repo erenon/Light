@@ -23,6 +23,8 @@ require_once '../application/modules/default/models/Page.php';
  * @license New BSD License
  * @author erenon
  *
+ * @todo refactor the virtualBackend magic
+ *
  */
 class Application_Modules_Default_Models_PageFileMapperTest
       extends PHPUnit_Framework_TestCase
@@ -134,8 +136,8 @@ class Application_Modules_Default_Models_PageFileMapperTest
     }
 
     /**
-     * Test exception if invalid path given
-     * @expectedException Exception
+     * Throw exception if nonexisting lang or alias given
+     * @expectedException Light_Exception_NotFound
      */
     public function testFindInvalid()
     {
@@ -181,7 +183,7 @@ class Application_Modules_Default_Models_PageFileMapperTest
     /**
      * Provides test data to testFilterContentAlias()
      *
-     * @return multitype:multitype:string
+     * @return array:array:string
      */
     public function aliasProvider()
     {

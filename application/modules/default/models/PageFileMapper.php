@@ -93,7 +93,7 @@ class Default_Model_PageFileMapper
      * @param string $lang
      * @param Default_Model_Page $page
      * @return Default_Model_Page
-     * @throws Exception
+     * @throws Light_Exception_NotFound
      * @uses TITLE_CONTENT_SEPARATOR
      */
     public function find($contentAlias, $lang, Default_Model_Page $page)
@@ -105,7 +105,8 @@ class Default_Model_PageFileMapper
                   . $contentAlias;
 
         if ( ! is_readable($filePath)) {
-            throw new Exception('File not found or not readable');
+            require_once 'Light/Exception/NotFound.php';
+            throw new Light_Exception_NotFound('File not found or not readable');
         }
 
         $file = file_get_contents($filePath);

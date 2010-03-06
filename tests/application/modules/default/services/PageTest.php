@@ -74,7 +74,7 @@ class Application_Modules_Default_Services_PageTest
 
     /**
      * Throw exception if invalid backend given
-     * @expectedException Exception
+     * @expectedException Light_Exception_InvalidParameters
      */
     public function testSetBackendInvalid()
     {
