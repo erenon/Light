@@ -137,6 +137,15 @@ class Default_Model_PageFileMapper
         return $page;
     }
 
+    /**
+     * Persists the given model on the backend.
+     *
+     * Creates a language dir if not presented, and writes a file into it.
+     * Filename is the page alias.
+     *
+     * @param Default_Model_Page $page Page model to save
+     * @return bool true
+     */
     public function save(Default_Model_Page $page)
     {
         $fileUri = $this->getDirectoryRoot()
@@ -156,8 +165,16 @@ class Default_Model_PageFileMapper
             $fileUri,
             $fileContent
         );
+
+        return true;
     }
 
+    /**
+     * Creates the given directory on the backend, if not presented any.
+     *
+     * @param string $dir Directory to create
+     * @return bool true
+     */
     private function _createDirIfNeeded($dir)
     {
         $root = $this->getDirectoryRoot();
@@ -176,6 +193,14 @@ class Default_Model_PageFileMapper
         return true;
     }
 
+    /**
+     * Concates title, separator and content, if title is not empty
+     *
+     * @param string $title
+     * @param string $content
+     * @return string The created string, or content if title was empty
+     * @uses TITLE_CONTENT_SEPARATOR
+     */
     private function _contentFromTitleAndContent($title, $content)
     {
         if (false != $title) {

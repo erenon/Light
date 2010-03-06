@@ -219,6 +219,7 @@ class Application_Modules_Default_Models_PageFileMapperTest
     }
 
     /**
+     * Test if file created on the backend in proper dir with proper content.
      *
      * @dataProvider contentProvider
      */
@@ -234,12 +235,6 @@ class Application_Modules_Default_Models_PageFileMapperTest
 
         $directoryRoot = $this->_getVirtualFsRoot('dirToSave');
 
-        /*mkdir(
-            $directoryRoot . DIRECTORY_SEPARATOR . $lang,
-            0700,
-            true
-        );*/
-
         $mapper->setDirectoryRoot($directoryRoot);
 
         $mapper->save($model);
@@ -249,8 +244,6 @@ class Application_Modules_Default_Models_PageFileMapperTest
                  . $lang
                  . DIRECTORY_SEPARATOR
                  . $contentAlias;
-
-        //var_dump(scandir($directoryRoot));
 
         $this->assertFileExists($fileUri);
 
