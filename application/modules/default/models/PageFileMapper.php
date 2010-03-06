@@ -22,7 +22,6 @@
  * @license New BSD License
  * @author erenon
  *
- * @todo improve doc
  */
 class Default_Model_PageFileMapper
 {
@@ -94,7 +93,7 @@ class Default_Model_PageFileMapper
      * @param string $lang
      * @param Default_Model_Page $page
      * @return Default_Model_Page
-     * @throws Light_Exception_NotFound
+     * @throws Light_Exception_NotFound If file not found or not readable
      * @uses TITLE_CONTENT_SEPARATOR
      */
     public function find($contentAlias, $lang, Default_Model_Page $page)
@@ -145,9 +144,20 @@ class Default_Model_PageFileMapper
      *
      * @param Default_Model_Page $page Page model to save
      * @return bool true
+     * @throws Light_Exception_InvalidParameter If language or alias not presented in the model
      */
     public function save(Default_Model_Page $page)
     {
+        if ("" == $page->getLanguage()) {
+            require_once 'Light/Exception/InvalidParameter.php';
+            throw new Light_Exception_InvalidParameter("Language not provided");
+        }
+
+        if ("" == $page->getAlias()) {
+            require_once 'Light/Exception/InvalidParameter.php';
+            throw new Light_Exception_InvalidParameter("Alias not provided");
+        }
+
         $fileUri = $this->getDirectoryRoot()
                  . DIRECTORY_SEPARATOR
                  . $page->getLanguage()
@@ -174,6 +184,7 @@ class Default_Model_PageFileMapper
      *
      * @param string $dir Directory to create
      * @return bool true
+     * @throws Light_Exception_Resource If backend dir is not writable
      */
     private function _createDirIfNeeded($dir)
     {
@@ -183,11 +194,16 @@ class Default_Model_PageFileMapper
                    . $dir;
 
         if (false === is_dir($neededDir)) {
-            mkdir(
-                $neededDir,
-                0700,
-                true
-            );
+            if (is_writable($root)) {
+                mkdir(
+                    $neededDir,
+                    0700,
+                    true
+                );
+            } else {
+                require_once 'Light/Exception/Resource.php';
+                throw new Light_Exception_Resource("Backend directory root is not writable");
+            }
         }
 
         return true;

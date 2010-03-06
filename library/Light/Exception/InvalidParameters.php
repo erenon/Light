@@ -6,7 +6,8 @@
  * - Wrong parameters given
  *
  * @category   Light
- * @package    Light_Exception
+ * @package    Light_Library
+ * @subpackage Exception
  * @license    New BSD License
  * @version    $Id:$
  * @author erenon
