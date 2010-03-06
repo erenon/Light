@@ -23,8 +23,6 @@ require_once '../application/modules/default/models/Page.php';
  * @license New BSD License
  * @author erenon
  *
- * @todo refactor the virtualBackend magic
- *
  */
 class Application_Modules_Default_Models_PageFileMapperTest
       extends PHPUnit_Framework_TestCase
@@ -45,32 +43,45 @@ class Application_Modules_Default_Models_PageFileMapperTest
         );
     }
 
-
     /**
-     * Initalize virtual filesystem
+     * Initialize virtual filesystem
      *
-     * @param string $lang Used language
-     * @return multitype:string string Array of virtual directory root,
-     * 		and root of language specific contents
+     * @param string $directoryName The root of the vfs
+     * @return string The created vfs' root
      */
-    protected function _initVirtualBackend($lang)
+    protected function _getVirtualFsRoot($directoryName)
     {
         //prepare vfs
         //setup vfsSW, root directory
         vfsStreamWrapper::register();
-        vfsStreamWrapper::setRoot(new vfsStreamDirectory('directoryRoot'));
+        vfsStreamWrapper::setRoot(new vfsStreamDirectory($directoryName));
 
-        //define root directory
-        $directoryRoot = vfsStream::url('directoryRoot');
+        return vfsStream::url($directoryName);
+    }
 
-        $contentDirectory = $directoryRoot . DIRECTORY_SEPARATOR . $lang;
+    /**
+     * Creates a file under the given root in the given directory
+     * with the name and content.
+     *
+     * @param string $root
+     * @param string $dir
+     * @param string $file
+     * @param string $content
+     * @return null
+     */
+    protected function _putVirtualFsContent($root, $dir, $file, $content)
+    {
+        $dirPath = $root . DIRECTORY_SEPARATOR . $dir;
+
         mkdir(
-            $contentDirectory,
+            $dirPath,
             0700,
             true
         );
 
-        return array($directoryRoot, $contentDirectory);
+        $fileUri = $dirPath . DIRECTORY_SEPARATOR . $file;
+
+        file_put_contents($fileUri, $content);
     }
 
     /**
@@ -102,12 +113,13 @@ class Application_Modules_Default_Models_PageFileMapperTest
         }
 
         //setup vfs
-        $virtualDir = $this->_initVirtualBackend($lang);
-        $directoryRoot = $virtualDir[0];
-        $contentDirectory = $virtualDir[1];
-
-        $contentPath = $contentDirectory . DIRECTORY_SEPARATOR . $contentAlias;
-        file_put_contents($contentPath, $fileContent);
+        $directoryRoot = $this->_getVirtualFsRoot('directoryRoot');
+        $this->_putVirtualFsContent(
+            $directoryRoot,
+            $lang,
+            $contentAlias,
+            $fileContent
+        );
 
         //set root directory
         $mapper = new Default_Model_PageFileMapper();
@@ -142,14 +154,7 @@ class Application_Modules_Default_Models_PageFileMapperTest
     public function testFindInvalid()
     {
         //prepare vfs
-        //setup vfsSW, root directory
-        vfsStreamWrapper::register();
-        vfsStreamWrapper::setRoot(
-            new vfsStreamDirectory('directoryRootInvalid')
-        );
-
-        //define root directory
-        $directoryRoot = vfsStream::url('directoryRootInvalid');
+        $directoryRoot = $this->_getVirtualFsRoot('directoryRootInvalid');
 
         //setup mapper
         $mapper = new Default_Model_PageFileMapper();
