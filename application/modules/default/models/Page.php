@@ -29,6 +29,7 @@ class Default_Model_Page
     private $_title;
     private $_alias;
     private $_content;
+    private $_language;
 
     public function setId($id)
     {
@@ -72,5 +73,16 @@ class Default_Model_Page
     public function getContent()
     {
       return $this->_content;
+    }
+
+    public function setLanguage($language)
+    {
+      $this->_language = (string) $language;
+      return $this;
+    }
+
+    public function getLanguage()
+    {
+      return $this->_language;
     }
 }
