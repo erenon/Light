@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
 	colors="false"
+	bootstrap="TestHelper.php"
 >
 	<!-- <listeners>
 		<listener class="PHPUnit_Extensions_TicketListener_GitHub" 

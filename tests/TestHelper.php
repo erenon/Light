@@ -22,3 +22,8 @@ $includePath = array(
     get_include_path()
     );
 set_include_path(implode(PATH_SEPARATOR, $includePath));
+
+/*
+ * Remove no more used variables
+ */
+unset($lightRoot, $libraryPath, $includePath);
