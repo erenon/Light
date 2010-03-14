@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Light" basedir=".">
-	
+
 	<!--
 	Executes the project unit tests.
 	-->
 	<target name="test" description="PHPUnit, php unittester">
 		<exec executable="phpunit" dir="${basedir}/tests">
-			<arg line="AllTests.php" />
 		</exec>
 	</target>
 	
