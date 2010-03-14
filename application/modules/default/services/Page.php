@@ -43,6 +43,7 @@ class Default_Service_Page
     private $_page;
     private $_mapper;
     private $_backend;
+    private $_form;
 
     /**
      * Sets the given page to use.
@@ -113,7 +114,7 @@ class Default_Service_Page
      *
      * @param string $backend
      * @return $this
-     * @throws Light_Exception_InvalidParameters If the backend type was wrong
+     * @throws Light_Exception_InvalidParameter If the backend type was wrong
      * @uses Default_Service_Page::BACKEND_FILE
      * @uses Default_Service_Page::BACKEND_DATABASE
      */
@@ -131,8 +132,8 @@ class Default_Service_Page
                 break;
 
             default:
-                require_once 'Light/Exception/InvalidParameters.php';
-                throw new Light_Exception_InvalidParameters('Wrong backend type given');
+                require_once 'Light/Exception/InvalidParameter.php';
+                throw new Light_Exception_InvalidParameter('Wrong backend type given');
                 break;
         }
 
@@ -158,6 +159,44 @@ class Default_Service_Page
      */
     public function find($contentAlias, $lang)
     {
-        return $this->getMapper()->find($contentAlias, $lang, $this->getPage());
+            return $this->getMapper()->find($contentAlias, $lang, $this->getPage());
+    }
+
+    public function setForm($form)
+    {
+        $this->_form = $form;
+        return $this;
+    }
+
+    public function getForm()
+    {
+        if (null === $this->_form) {
+            $this->setForm(new Default_Form_Page());
+        }
+        return $this->_form;
+    }
+
+    /**
+     * Creates and saves a page model based on the given request.
+     *
+     * @param array $request The request contains page fields
+     * @return bool Returns true if the saving was successful, false otherwise
+     */
+    public function save(array $request)
+    {
+        $form = $this->getForm();
+
+        if ($form->isValid($request)) {
+            $values = $form->getValues();
+
+            $page = $this->getPage();
+            $page->setOptions($values);
+
+            $this->getMapper()->save($page);
+
+            return true;
+        }
+
+        return false;
     }
 }

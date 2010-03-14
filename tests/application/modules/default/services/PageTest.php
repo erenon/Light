@@ -12,6 +12,8 @@
 
 require_once '../application/modules/default/services/Page.php';
 
+require_once '../application/modules/default/forms/Page.php';
+
 /**
  * Default_Service_Page test suite
  *
@@ -74,7 +76,7 @@ class Application_Modules_Default_Services_PageTest
 
     /**
      * Throw exception if invalid backend given
-     * @expectedException Light_Exception_InvalidParameters
+     * @expectedException Light_Exception_InvalidParameter
      */
     public function testSetBackendInvalid()
     {
@@ -106,5 +108,45 @@ class Application_Modules_Default_Services_PageTest
         $pageService->setMapper($pageMapper);
 
         $pageService->find('content-Foo', 'language-ÁŰ');
+    }
+
+    /**
+     * Returns true if form is valid
+     */
+    public function testSaveReturnsTrueIfValid()
+    {
+        $form = $this->getMock('Zend_Form', array('isValid'));
+
+        $form->expects($this->once())
+             ->method('isValid')
+             ->will($this->returnValue(true));
+
+        $mapper = $this->getMock('Mapper', array('save'));
+
+        $pageService = new Default_Service_Page();
+        $pageService->setMapper($mapper);
+        $pageService->setForm($form);
+
+        $this->assertTrue($pageService->save(array()));
+    }
+
+    /**
+     * Returns false if form is invalid
+     */
+    public function testSaveReturnsFalseIfInvalid()
+    {
+        $form = $this->getMock('Zend_Form', array('isValid'));
+
+        $form->expects($this->once())
+             ->method('isValid')
+             ->will($this->returnValue(false));
+
+        $mapper = $this->getMock('Mapper', array('save'));
+
+        $pageService = new Default_Service_Page();
+        $pageService->setMapper($mapper);
+        $pageService->setForm($form);
+
+        $this->assertFalse($pageService->save(array()));
     }
 }
