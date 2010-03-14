@@ -10,6 +10,8 @@
  * @author erenon
  */
 
+require_once 'Light/Model/Abstract.php';
+
 /**
  * Page Model
  *
@@ -23,7 +25,7 @@
  * @todo improve doc
  *
  */
-class Default_Model_Page
+class Default_Model_Page extends Light_Model_Abstract
 {
     private $_id;
     private $_title;
