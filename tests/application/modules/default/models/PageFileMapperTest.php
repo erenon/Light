@@ -23,6 +23,8 @@ require_once '../application/modules/default/models/Page.php';
  * @license New BSD License
  * @author erenon
  *
+ * @group Light_Page
+ *
  */
 class Application_Modules_Default_Models_PageFileMapperTest
       extends PHPUnit_Framework_TestCase
@@ -111,12 +113,6 @@ class Application_Modules_Default_Models_PageFileMapperTest
      */
     public function testFind($contentAlias, $lang, $title, $content, $fileContent)
     {
-        /*if (isset($title)) {
-            $fileContent = $title . "\n" . $content;
-        } else {
-            $fileContent = $content;
-        }*/
-
         //setup vfs
         $directoryRoot = $this->_getVirtualFsRoot('directoryRoot');
         $this->_putVirtualFsContent(
