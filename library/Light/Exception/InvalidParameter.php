@@ -1,6 +1,6 @@
 <?php
 /**
- * Invalid parameters exception
+ * Invalid parameter exception
  *
  * Usecases:
  * - Wrong parameters given
@@ -15,6 +15,6 @@
 
 require_once 'Light/Exception.php';
 
-class Light_Exception_InvalidParameters extends Light_Exception
+class Light_Exception_InvalidParameter extends Light_Exception
 {
 }
