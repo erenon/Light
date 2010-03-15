@@ -28,6 +28,37 @@ class Application_Modules_Default_Models_PageTest
       extends PHPUnit_Framework_TestCase
 {
     /**
-     * This testcase is out of use. Enable it in AllTests.php of this directory.
+     * Test alias generator
+     *
+     * @dataProvider provideTitleAlias
      */
+    public function testSetAliasFromTitle($title, $alias)
+    {
+        $page = new Default_Model_Page();
+        $page->setTitle($title);
+        $page->setAliasFromTitle();
+
+        $this->assertEquals(
+            $alias,
+            $page->getAlias()
+        );
+    }
+
+    /**
+     * Test generation of alias from title
+     */
+    public function provideTitleAlias()
+    {
+        return array(
+            array('white space', 'white-space'),
+            array("white space\ttab\nnewline\rreturn",
+                  'white-space-tab-newline-return'),
+            array('árvíztűrőtükörfúrógép',
+                  'arvizturotukorfurogep'),
+            array('ÁRVÍZTŰRŐTÜKÖRFÚRÓGÉP',
+                  'ARVIZTUROTUKORFUROGEP'),
+            array('?&',
+                  urlencode('?&'))
+        );
+    }
 }

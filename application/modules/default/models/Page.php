@@ -33,6 +33,8 @@ class Default_Model_Page extends Light_Model_Abstract
     private $_content;
     private $_language;
 
+    const ALIAS_WHITESPACE_REPLACEMENT = '-';
+
     public function setId($id)
     {
       $this->_id = (int) $id;
@@ -86,5 +88,39 @@ class Default_Model_Page extends Light_Model_Abstract
     public function getLanguage()
     {
       return $this->_language;
+    }
+
+    /**
+     * Calculates the alias of the page based on it's title.
+     *
+     * This method replaces whitespaces with dashes,
+     * partially removes accents,
+     * and use urlencode.
+     *
+     * @return $this
+     */
+    public function setAliasFromTitle()
+    {
+        $title = $this->getTitle();
+
+        if (empty($title)) {
+            return $this;
+        }
+
+        //remove whitespaces from the beginning and end of title
+        $alias = trim($title);
+        $alias = preg_replace('/\s/', self::ALIAS_WHITESPACE_REPLACEMENT, $alias);
+
+        //remove accented chars
+        $alias = iconv('UTF-8', 'US-ASCII//TRANSLIT', $alias);
+        //iconv represents accents as other chars, let's strip them as well
+        $alias = str_replace(array('\'', '"', ':'), '', $alias);
+
+        //safety first: url encode
+        $alias = urlencode($alias);
+
+        $this->setAlias($alias);
+
+        return $this;
     }
 }
