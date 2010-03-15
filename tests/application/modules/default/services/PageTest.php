@@ -14,6 +14,8 @@ require_once '../application/modules/default/services/Page.php';
 
 require_once '../application/modules/default/forms/Page.php';
 
+require_once '../application/modules/default/models/Page.php';
+
 /**
  * Default_Service_Page test suite
  *
@@ -148,5 +150,38 @@ class Application_Modules_Default_Services_PageTest
         $pageService->setForm($form);
 
         $this->assertFalse($pageService->save(array()));
+    }
+
+    public function testSave()
+    {
+        $request = array(
+            'title'    => 'foo',
+            'content'  => 'some content',
+            'language' => 'bar'
+        );
+
+        $model = new Default_Model_Page($request);
+        $model->setAliasFromTitle();
+
+        $form = $this->getMock('Zend_Form', array('isValid', 'getValues'));
+
+        $form->expects($this->once())
+             ->method('isValid')
+             ->will($this->returnValue(true));
+
+        $form->expects($this->once())
+             ->method('getValues')
+             ->will($this->returnValue($request));
+
+        $mapper = $this->getMock('Mapper', array('save'));
+        $mapper->expects($this->once())
+               ->method('save')
+               ->with($model);
+
+        $service = new Default_Service_Page();
+        $service->setForm($form);
+        $service->setMapper($mapper);
+
+        $service->save($request);
     }
 }

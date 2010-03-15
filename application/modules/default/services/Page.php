@@ -192,6 +192,11 @@ class Default_Service_Page
             $page = $this->getPage();
             $page->setOptions($values);
 
+            $alias = $page->getAlias();
+            if (empty($alias)) {
+                $page->setAliasFromTitle();
+            }
+
             $this->getMapper()->save($page);
 
             return true;
