@@ -248,4 +248,34 @@ class Application_Modules_Default_Models_PageFileMapperTest
             file_get_contents($fileUri)
         );
     }
+
+    /**
+     * Save method needs alias field
+     *
+     * @expectedException Light_Exception_InvalidParameter
+     */
+    public function testSaveNoAlias()
+    {
+        $model = new Default_Model_Page();
+        //set language explicitly to avoid catch exception by no language
+        $model->setLanguage('bar');
+
+        $mapper = new Default_Model_PageFileMapper();
+        $mapper->save($model);
+    }
+
+    /**
+     * Save method needs language field
+     *
+     * @expectedException Light_Exception_InvalidParameter
+     */
+    public function testSaveNoLanguage()
+    {
+        $model = new Default_Model_Page();
+        //set language explicitly to avoid catch exception by no alias
+        $model->setAlias('bar');
+
+        $mapper = new Default_Model_PageFileMapper();
+        $mapper->save($model);
+    }
 }
