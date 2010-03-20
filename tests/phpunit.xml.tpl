@@ -22,6 +22,7 @@
 						<file>application/modules/default/models/PageTest.php</file>
 						<file>application/modules/default/models/PageFileMapperTest.php</file>
 						<file>application/modules/default/services/PageTest.php</file>
+						<file>application/modules/default/forms/PageTest.php</file>
 					</testsuite>
 				</testsuite>
 			</testsuite>
