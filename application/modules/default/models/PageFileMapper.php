@@ -106,7 +106,9 @@ class Default_Model_PageFileMapper
 
         if ( ! is_readable($filePath)) {
             require_once 'Light/Exception/NotFound.php';
-            throw new Light_Exception_NotFound('File not found or not readable');
+            throw new Light_Exception_NotFound(
+                'File not found or not readable'
+            );
         }
 
         $file = file_get_contents($filePath);
@@ -144,7 +146,8 @@ class Default_Model_PageFileMapper
      *
      * @param Default_Model_Page $page Page model to save
      * @return bool true
-     * @throws Light_Exception_InvalidParameter If language or alias not presented in the model
+     * @throws Light_Exception_InvalidParameter
+     * If language or alias not presented in the model
      */
     public function save(Default_Model_Page $page)
     {
@@ -202,7 +205,9 @@ class Default_Model_PageFileMapper
                 );
             } else {
                 require_once 'Light/Exception/Resource.php';
-                throw new Light_Exception_Resource("Backend directory root is not writable");
+                throw new Light_Exception_Resource(
+                    'Backend directory root is not writable'
+                );
             }
         }
 

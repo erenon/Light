@@ -109,7 +109,11 @@ class Default_Model_Page extends Light_Model_Abstract
 
         //remove whitespaces from the beginning and end of title
         $alias = trim($title);
-        $alias = preg_replace('/\s/', self::ALIAS_WHITESPACE_REPLACEMENT, $alias);
+        $alias = preg_replace(
+            '/\s/',
+            self::ALIAS_WHITESPACE_REPLACEMENT,
+            $alias
+        );
 
         //remove accented chars
         $alias = iconv('UTF-8', 'US-ASCII//TRANSLIT', $alias);

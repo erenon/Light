@@ -133,7 +133,9 @@ class Default_Service_Page
 
             default:
                 require_once 'Light/Exception/InvalidParameter.php';
-                throw new Light_Exception_InvalidParameter('Wrong backend type given');
+                throw new Light_Exception_InvalidParameter(
+                    'Wrong backend type given'
+                );
                 break;
         }
 
@@ -159,7 +161,11 @@ class Default_Service_Page
      */
     public function find($contentAlias, $lang)
     {
-            return $this->getMapper()->find($contentAlias, $lang, $this->getPage());
+            return $this->getMapper()->find(
+                $contentAlias,
+                $lang,
+                $this->getPage()
+            );
     }
 
     public function setForm($form)
