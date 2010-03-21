@@ -32,6 +32,11 @@ define(
 );
 
 /*
+ * define application env
+ */
+define('APPLICATION_ENV', 'testing');
+
+/*
  * include zend test suites
  */
 require_once 'Zend/Test/PHPUnit/ControllerTestCase.php';
