@@ -12,6 +12,15 @@
 
 require_once 'Zend/Form.php';
 
+/**
+ * Simple form to create and edit Pages
+ *
+ * @category Light
+ * @package Light_Page
+ * @subpackage Form
+ * @license New BSD License
+ * @author erenon
+ */
 class Default_Form_Page extends Zend_Form
 {
     /**
@@ -27,7 +36,7 @@ class Default_Form_Page extends Zend_Form
             'title',
             array(
                 'label'	=> 'Title',
-            	'required' => true,
+                'required' => true,
                 'validators' => array(
                     array('StringLength', false, array(1, 512))
                 )
@@ -39,7 +48,7 @@ class Default_Form_Page extends Zend_Form
             'alias',
             array(
                 'label'	=> 'Alias',
-            	'required' => false,
+                'required' => false,
                 'validators' => array(
                     array('StringLength', false, array(1, 512))
                 )
@@ -51,7 +60,7 @@ class Default_Form_Page extends Zend_Form
             'content',
             array(
                 'label'	=> 'Content',
-            	'required' => true,
+                'required' => true,
             )
         );
 
@@ -60,7 +69,7 @@ class Default_Form_Page extends Zend_Form
             'language',
             array(
                 'label'	=> 'Language',
-            	'required' => true,
+                'required' => true,
                 'validators' => array(
                     array('StringLength', false, array(1, 64))
                 )
