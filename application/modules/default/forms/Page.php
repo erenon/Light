@@ -23,9 +23,11 @@ class Default_Form_Page extends Zend_Form
         $this->setMethod(Zend_Form::METHOD_POST);
 
         $this->addElement(
-            'text', 'title',
+            'text',
+            'title',
             array(
-                'required' => true,
+                'label'	=> 'Title',
+            	'required' => true,
                 'validators' => array(
                     array('StringLength', false, array(1, 512))
                 )
@@ -33,9 +35,11 @@ class Default_Form_Page extends Zend_Form
         );
 
         $this->addElement(
-            'text', 'alias',
+            'text',
+            'alias',
             array(
-                'required' => false,
+                'label'	=> 'Alias',
+            	'required' => false,
                 'validators' => array(
                     array('StringLength', false, array(1, 512))
                 )
@@ -46,7 +50,8 @@ class Default_Form_Page extends Zend_Form
             'textarea',
             'content',
             array(
-                'required' => true,
+                'label'	=> 'Content',
+            	'required' => true,
             )
         );
 
@@ -54,10 +59,19 @@ class Default_Form_Page extends Zend_Form
             'text',
             'language',
             array(
-                'required' => true,
+                'label'	=> 'Language',
+            	'required' => true,
                 'validators' => array(
                     array('StringLength', false, array(1, 64))
                 )
+            )
+        );
+
+        $this->addElement(
+            'submit',
+            'submit',
+            array(
+                'label' => 'Submit'
             )
         );
     }
