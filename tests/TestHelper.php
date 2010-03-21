@@ -24,6 +24,19 @@ $includePath = array(
 set_include_path(implode(PATH_SEPARATOR, $includePath));
 
 /*
+ * Setup APPLICATION_PATH
+ */
+define(
+    'APPLICATION_PATH',
+    $lightRoot . DIRECTORY_SEPARATOR . 'application'
+);
+
+/*
+ * include zend test suites
+ */
+require_once 'Zend/Test/PHPUnit/ControllerTestCase.php';
+
+/*
  * Remove no more used variables
  */
 unset($lightRoot, $libraryPath, $includePath);
