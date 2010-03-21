@@ -28,5 +28,12 @@
 				</testsuite>
 			</testsuite>
 		</testsuite>
+		<testsuite name="library">
+			<testsuite name="Light">
+				<testsuite name="service">
+						<file>library/Light/Service/AbstractTest.php</file>
+				</testsuite>
+			</testsuite>
+		</testsuite>
 	</testsuites>
 </phpunit>
