@@ -10,7 +10,7 @@
  * @author erenon
  */
 
-require_once '../application/modules/default/controllers/Page.php';
+//require_once '../application/modules/default/controllers/PageController.php';
 require_once 'Light/Service/Abstract.php';
 
 /**
@@ -28,6 +28,20 @@ require_once 'Light/Service/Abstract.php';
 class Application_Modules_Default_Controllers_PageTest
     extends Zend_Test_PHPUnit_ControllerTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->frontController->setParam('noErrorHandler', true);
+        $this->frontController->addModuleDirectory(APPLICATION_PATH . '/modules');
+        $this->frontController->setModuleControllerDirectoryName('controllers');
+
+        $this->frontController->setDefaultModule('default');
+        $this->frontController->setDefaultAction('index');
+        $this->frontController->setDefaultControllerName('index');
+
+        $this->frontController->setControllerDirectory(APPLICATION_PATH . '/modules/default/controllers/', 'default');
+    }
+
     public function testShowCallsServiceFind()
     {
         $content = 'foo';
@@ -40,7 +54,16 @@ class Application_Modules_Default_Controllers_PageTest
 
         Light_Service_Abstract::setService($service, 'Page', 'Default');
 
-        $this->dispatch('/default/page/show/foo/bar');
+        $this->request->setQuery(array(
+            'content' => $content,
+            'language' => $language,
+        ));
+
+        $this->dispatch('/page/show');
+
+        $this->assertModule('default');
+        $this->assertController('page');
+        $this->assertAction('show');
 
     }
 }

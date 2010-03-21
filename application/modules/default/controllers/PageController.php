@@ -12,10 +12,15 @@
 
 require_once 'Zend/Controller/Action.php';
 
-class Default_PageController extends Zend_Controller_Action
+class PageController extends Zend_Controller_Action
 {
     public function showAction()
     {
+        $request = $this->getRequest();
+        $content = $request->getParam('content');
+        $language = $request->getParam('language');
+
         $service = Light_Service_Abstract::getService('Page', 'Default');
+        $service->find($content, $language);
     }
 }
