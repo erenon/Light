@@ -21,6 +21,8 @@ class PageController extends Zend_Controller_Action
         $language = $request->getParam('language');
 
         $service = Light_Service_Abstract::getService('Page', 'Default');
-        $service->find($content, $language);
+        $page = $service->find($content, $language);
+
+        $this->view->page = $page;
     }
 }
