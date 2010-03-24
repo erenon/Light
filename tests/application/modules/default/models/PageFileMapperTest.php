@@ -25,6 +25,9 @@ require_once '../application/modules/default/models/Page.php';
  *
  * @group Light_Page
  *
+ * @todo refactor find by moving filtering and exception throwing
+ * to external, private methods
+ *
  */
 class Application_Modules_Default_Models_PageFileMapperTest
       extends PHPUnit_Framework_TestCase
@@ -157,20 +160,68 @@ class Application_Modules_Default_Models_PageFileMapperTest
      * Throw exception if nonexisting lang or alias given
      * @expectedException Light_Exception_NotFound
      */
-    public function testFindInvalid()
+    public function testFindAliasOrLanguageNotFound()
     {
         //prepare vfs
-        $directoryRoot = $this->_getVirtualFsRoot('directoryRootInvalid');
+        $directoryRoot = $this->_getVirtualFsRoot('directoryRootEmpty');
 
         //setup mapper
         $mapper = new Default_Model_PageFileMapper();
         $mapper->setDirectoryRoot($directoryRoot);
 
-        $lang = 'BarInvalid';
         $contentAlias = 'FooInvalid';
+        $lang = 'BarInvalid';
         $pageModel = new Default_Model_Page();
 
-        $mapper->find($lang, $contentAlias, $pageModel);
+        $mapper->find($contentAlias, $lang, $pageModel);
+    }
+
+    /**
+     * Alias should not be empty
+     * @expectedException Light_Exception_InvalidParameter
+     */
+    public function testFindEmptyAlias()
+    {
+        $page = new Default_Model_Page();
+
+        $mapper = new Default_Model_PageFileMapper();
+        $mapper->find('', 'foo', $page);
+    }
+
+    /**
+     * Alias should stay the same after filtering
+     * @expectedException Light_Exception_InvalidParameter
+     */
+    public function testFindMaliciousAlias()
+    {
+        $page = new Default_Model_Page();
+
+        $mapper = new Default_Model_PageFileMapper();
+        $mapper->find('../../../etc/passwd', 'foo', $page);
+    }
+
+    /**
+     * Language should not be empty
+     * @expectedException Light_Exception_InvalidParameter
+     */
+    public function testFindEmptyLanguage()
+    {
+        $page = new Default_Model_Page();
+
+        $mapper = new Default_Model_PageFileMapper();
+        $mapper->find('foo', '', $page);
+    }
+
+    /**
+     * Language should stay the same after filtering
+     * @expectedException Light_Exception_InvalidParameter
+     */
+    public function testFindMaliciousLanguage()
+    {
+        $page = new Default_Model_Page();
+
+        $mapper = new Default_Model_PageFileMapper();
+        $mapper->find('passwd', '../../../etc/', $page);
     }
 
     /**
@@ -178,8 +229,8 @@ class Application_Modules_Default_Models_PageFileMapperTest
      *
      * @param string $untrustedAlias
      * @param string $filteredAlias
-     * @uses aliasProvider()
-     * @dataProvider aliasProvider
+     * @uses aliasFilterProvider()
+     * @dataProvider aliasFilterProvider
      */
     public function testFilterContentAlias($untrustedAlias, $filteredAlias)
     {
@@ -196,7 +247,7 @@ class Application_Modules_Default_Models_PageFileMapperTest
      *
      * @return array:array:string
      */
-    public function aliasProvider()
+    public function aliasFilterProvider()
     {
         return array(
             array('normalAlias', 'normalAlias'),
@@ -211,6 +262,41 @@ class Application_Modules_Default_Models_PageFileMapperTest
             array('numb3rs', 'numb3rs'),
             array('under_scored', 'under_scored'),
             array('dash-ed', 'dash-ed')
+        );
+    }
+
+    /**
+     * Language should be filtered to avoid L/RFI, DirTrav, etc.
+     *
+     * @param string $untrustedLang Language before filtering
+     * @param string $filteredLang Language after filtering
+     * @uses languageFilterProivder
+     * @dataProvider languageFilterProivder
+     */
+    public function testFilterLanguage($untrustedLang, $filteredLang)
+    {
+        $mapper = new Default_Model_PageFileMapper();
+
+        $this->assertEquals(
+            $filteredLang,
+            $mapper->filterLanguage($untrustedLang)
+        );
+    }
+
+    /**
+     * Provides untrusted and filtered language pairs.
+     *
+     * @return array:array:string
+     */
+    public function languageFilterProivder()
+    {
+        return array(
+            array('normalLang', 'normalLang'),
+            array('norm4l-numbered', 'norm4l-numbered'),
+            array('under_score', 'under_score'),
+            array('dot.ted', 'dotted'),
+            array('slash/ed', 'slashed'),
+            array('nulled%00', 'nulled00')
         );
     }
 

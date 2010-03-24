@@ -85,6 +85,12 @@ class Default_Model_PageFileMapper
         return $file;
     }
 
+    public function filterLanguage($lang)
+    {
+        $filtered = preg_replace('/[^a-zA-Z0-9_\-]*/', '', $lang);
+        return $filtered;
+    }
+
     /**
      * Reads content from the filesystem
      * based on the given contentAlias and language.
@@ -98,11 +104,44 @@ class Default_Model_PageFileMapper
      */
     public function find($contentAlias, $lang, Default_Model_Page $page)
     {
+        if (empty($contentAlias)) {
+            require_once 'Light/Exception/InvalidParameter.php';
+            throw new Light_Exception_InvalidParameter(
+                'content alias was empty'
+            );
+        }
+
+        if (empty($lang)) {
+            require_once 'Light/Exception/InvalidParameter.php';
+            throw new Light_Exception_InvalidParameter(
+                'language was empty'
+            );
+        }
+
+        $filteredAlias = $this->filterContentAlias($contentAlias);
+
+        //prevent content duplication by referring to filtered pages
+        if ( $filteredAlias !== $contentAlias) {
+            require_once 'Light/Exception/InvalidParameter.php';
+            throw new Light_Exception_InvalidParameter(
+                'Invalid content alias provided'
+            );
+        }
+
+        $filteredLang = $this->filterLanguage($lang);
+
+        if ( $filteredLang !== $lang) {
+            require_once 'Light/Exception/InvalidParameter.php';
+            throw new Light_Exception_InvalidParameter(
+                'Invalid language provided'
+            );
+        }
+
         $filePath = $this->getDirectoryRoot()
                   . DIRECTORY_SEPARATOR
                   . $lang
                   . DIRECTORY_SEPARATOR
-                  . $contentAlias;
+                  . $filteredAlias;
 
         if ( ! is_readable($filePath)) {
             require_once 'Light/Exception/NotFound.php';
@@ -132,7 +171,7 @@ class Default_Model_PageFileMapper
             $page->setContent($content);
         }
 
-        $page->setAlias($contentAlias);
+        $page->setAlias($filteredAlias);
         $page->setLanguage($lang);
 
         return $page;
