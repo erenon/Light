@@ -12,8 +12,26 @@
 
 require_once 'Zend/Controller/Action.php';
 
+
+/**
+ * Provides CRUD on simple Page models
+ *
+ * @category Light
+ * @package Light_Page
+ * @subpackage Controller
+ * @license New BSD License
+ * @author erenon
+ *
+ */
 class PageController extends Zend_Controller_Action
 {
+    /**
+     * Displays static pages
+     *
+     * Interacts with the Page service via it's find method,
+     * gets the requested page by content and language,
+     * sets up the returned page to view->page
+     */
     public function showAction()
     {
         $request = $this->getRequest();
@@ -21,7 +39,22 @@ class PageController extends Zend_Controller_Action
         $language = $request->getParam('language');
 
         $service = Light_Service_Abstract::getService('Page', 'Default');
-        $page = $service->find($content, $language);
+
+        try
+        {
+            $page = $service->find($content, $language);
+        } catch (Light_Exception_NotFound $notFound) {
+            throw new Light_Exception_NotFound(
+                'Requested page doesn\'t exists'
+            );
+        } catch (Light_Exception_InvalidParameter $invalid) {
+            throw new Light_Exception_NotFound(
+                'Requested page doesn\'t exists'
+            );
+            //it could be a bad request as well
+        } catch (Light_Exception $exception) {
+            throw new Light_Exception('Internal error');
+        }
 
         $this->view->page = $page;
     }

@@ -18,6 +18,9 @@ require_once 'Zend/Controller/Request/Abstract.php';
 require_once 'Zend/Controller/Response/Abstract.php';
 require_once 'Zend/View.php';
 
+require_once 'Light/Exception.php';
+require_once 'Light/Exception/NotFound.php';
+
 /**
  * Default_PageController test
  *
@@ -33,10 +36,14 @@ require_once 'Zend/View.php';
 class Application_Modules_Default_Controllers_PageTest
     extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Tests if controller calls page service with proper arguments
+     * and sets up view->page field
+     */
     public function testShowCallsServiceFind()
     {
-        $content = 'foo';
-        $language = 'bar';
+        $content = $this->getRequestParam('content');
+        $language = $this->getRequestParam('language');
 
         $page = $this->getMock('Default_Model_Page');
 
@@ -48,16 +55,21 @@ class Application_Modules_Default_Controllers_PageTest
 
         Light_Service_Abstract::setService($service, 'Page', 'Default');
 
-        $request = $this->getMock('Zend_Controller_Request_Abstract', array('getParam'));
+        $request = $this->getMock(
+            'Zend_Controller_Request_Abstract',
+            array('getParam')
+        );
+
         $request->expects($this->any())
                 ->method('getParam')
-                ->will($this->returnCallback(array($this, 'getParam')));
+                ->will($this->returnCallback(array($this, 'getRequestParam')));
 
         $response = $this->getMock('Zend_Controller_Response_Abstract');
 
         $controller = new PageController($request, $response);
 
         //$view = $this->getMock('Zend_View');
+        //mocking zend_view doesn't work becouse of a mocked __set()
         $view = new Zend_View();
         $controller->view = $view;
 
@@ -70,7 +82,13 @@ class Application_Modules_Default_Controllers_PageTest
 
     }
 
-    public function getParam($key)
+    /**
+     * Provides test request parameters, content and language
+     *
+     * @param string $key request parameter name
+     * @return null|<string>request parameter value
+     */
+    public function getRequestParam($key)
     {
         $parameters = array(
             'content'  => 'foo',
@@ -82,5 +100,71 @@ class Application_Modules_Default_Controllers_PageTest
         } else {
             return null;
         }
+    }
+
+    /**
+     * Test not found
+     *
+     * @expectedException Light_Exception_NotFound
+     */
+    public function testShowThrowsNotFound()
+    {
+        $content = $this->getRequestParam('content');
+        $language = $this->getRequestParam('language');
+
+        $service = $this->getMock('Default_Page_Service', array('find'));
+        $service->expects($this->once())
+                ->method('find')
+                ->will($this->throwException(new Light_Exception_NotFound()));
+
+        Light_Service_Abstract::setService($service, 'Page', 'Default');
+
+        $request = $this->getMock(
+            'Zend_Controller_Request_Abstract',
+            array('getParam')
+        );
+
+        $request->expects($this->any())
+                ->method('getParam')
+                ->will($this->returnCallback(array($this, 'getRequestParam')));
+
+        $response = $this->getMock('Zend_Controller_Response_Abstract');
+
+        $controller = new PageController($request, $response);
+
+        $controller->showAction();
+    }
+
+    /**
+     * Test internal error
+     *
+     * @expectedException Light_Exception
+     */
+    public function testShowThrowsInternalError()
+    {
+        $content = $this->getRequestParam('content');
+        $language = $this->getRequestParam('language');
+
+        $service = $this->getMock('Default_Page_Service', array('find'));
+        $service->expects($this->once())
+                ->method('find')
+                ->will($this->throwException(new Light_Exception()));
+
+        Light_Service_Abstract::setService($service, 'Page', 'Default');
+
+        $request = $this->getMock(
+            'Zend_Controller_Request_Abstract',
+            array('getParam')
+        );
+
+        $request->expects($this->any())
+                ->method('getParam')
+                ->will($this->returnCallback(array($this, 'getRequestParam')));
+
+        $response = $this->getMock('Zend_Controller_Response_Abstract');
+
+        $controller = new PageController($request, $response);
+
+        $controller->showAction();
     }
 }
