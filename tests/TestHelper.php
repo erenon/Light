@@ -37,11 +37,6 @@ define(
 define('APPLICATION_ENV', 'testing');
 
 /*
- * include zend test suites
- */
-require_once 'Zend/Test/PHPUnit/ControllerTestCase.php';
-
-/*
  * Remove no more used variables
  */
 unset($lightRoot, $libraryPath, $includePath);

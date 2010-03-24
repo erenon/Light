@@ -35,5 +35,8 @@
 				</testsuite>
 			</testsuite>
 		</testsuite>
+		<testsuite name="integration">
+			<file>integration/PageTest.php</file>
+		</testsuite>
 	</testsuites>
 </phpunit>

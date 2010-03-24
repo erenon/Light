@@ -10,6 +10,8 @@
  * @author erenon
  */
 
+require_once 'Zend/Test/PHPUnit/ControllerTestCase.php';
+
 require_once 'Zend/Application.php';
 
 /**
