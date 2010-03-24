@@ -10,17 +10,20 @@
  * @author erenon
  */
 
-return array_merge_recursive(array(
-    'resources'   => array(
-        'frontController' => array(
-            'moduleDirectory' => APPLICATION_PATH . '/modules',
-            'moduleControllerDirectoryName' => '/controllers',
-            'defaultModule' => 'default',
-            'defaultAction' => 'index',
-            'defaultControllerName' => 'index',
+return array_merge_recursive(
+    array(
+        'resources'   => array(
+            'frontController' => array(
+                'moduleDirectory' => APPLICATION_PATH . '/modules',
+                'moduleControllerDirectoryName' => '/controllers',
+                'defaultModule' => 'default',
+                'defaultAction' => 'index',
+                'defaultControllerName' => 'index',
 
-            'throwerrors' => false,
-            'env' => APPLICATION_ENV
-        ),
-    )
-), include dirname(__FILE__) . '/' . APPLICATION_ENV . '.config.php');
+                'throwerrors' => false,
+                'env' => APPLICATION_ENV
+            ),
+        )
+    ),
+    include dirname(__FILE__) . '/' . APPLICATION_ENV . '.config.php'
+);

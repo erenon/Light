@@ -44,10 +44,12 @@ class Integration_PageTest extends Light_Test_ControllerTestCase
 
         Light_Service_Abstract::setService($service, 'Page', 'Default');
 
-        $this->request->setQuery(array(
-            'content' => $content,
-            'language' => $language,
-        ));
+        $this->request->setQuery(
+            array(
+                'content' => $content,
+                'language' => $language,
+            )
+        );
 
         $this->dispatch('/page/show');
 
