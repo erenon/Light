@@ -23,7 +23,7 @@ require_once 'Zend/Controller/Action.php';
  * @author erenon
  *
  */
-class PageController extends Zend_Controller_Action
+class Default_PageController extends Zend_Controller_Action
 {
     /**
      * Displays static pages

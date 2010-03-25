@@ -19,6 +19,7 @@ return array_merge_recursive(
                 'defaultModule' => 'default',
                 'defaultAction' => 'index',
                 'defaultControllerName' => 'index',
+                'prefixDefaultModule' => true,
 
                 'throwerrors' => false,
                 'env' => APPLICATION_ENV

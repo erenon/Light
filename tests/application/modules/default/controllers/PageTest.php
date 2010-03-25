@@ -66,7 +66,7 @@ class Application_Modules_Default_Controllers_PageTest
 
         $response = $this->getMock('Zend_Controller_Response_Abstract');
 
-        $controller = new PageController($request, $response);
+        $controller = new Default_PageController($request, $response);
 
         //$view = $this->getMock('Zend_View');
         //mocking zend_view doesn't work becouse of a mocked __set()
@@ -130,7 +130,7 @@ class Application_Modules_Default_Controllers_PageTest
 
         $response = $this->getMock('Zend_Controller_Response_Abstract');
 
-        $controller = new PageController($request, $response);
+        $controller = new Default_PageController($request, $response);
 
         $controller->showAction();
     }
@@ -163,7 +163,7 @@ class Application_Modules_Default_Controllers_PageTest
 
         $response = $this->getMock('Zend_Controller_Response_Abstract');
 
-        $controller = new PageController($request, $response);
+        $controller = new Default_PageController($request, $response);
 
         $controller->showAction();
     }
