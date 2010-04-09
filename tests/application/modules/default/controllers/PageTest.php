@@ -37,24 +37,13 @@ class Application_Modules_Default_Controllers_PageTest
     extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tests if controller calls page service with proper arguments
-     * and sets up view->page field
+     * Initalizes test environment
+     *
+     * Inits request, response, controller.
+     * All the fixtures are accessible as public class fields
      */
-    public function testShowCallsServiceFind()
+    public function setUp()
     {
-        $content = $this->getRequestParam('content');
-        $language = $this->getRequestParam('language');
-
-        $page = $this->getMock('Default_Model_Page');
-
-        $service = $this->getMock('Default_Page_Service', array('find'));
-        $service->expects($this->once())
-                ->method('find')
-                ->with($content, $language)
-                ->will($this->returnValue($page));
-
-        Light_Service_Abstract::setService($service, 'Page', 'Default');
-
         $request = $this->getMock(
             'Zend_Controller_Request_Abstract',
             array('getParam')
@@ -64,16 +53,50 @@ class Application_Modules_Default_Controllers_PageTest
                 ->method('getParam')
                 ->will($this->returnCallback(array($this, 'getRequestParam')));
 
+        $this->request = $request;
+
         $response = $this->getMock('Zend_Controller_Response_Abstract');
+        $this->response = $response;
 
         $controller = new Default_PageController($request, $response);
+        $this->controller = $controller;
+    }
+
+    /**
+     * Injects a mock page service into Light_Service_Abstract
+     *
+     * @param PHPUnit_Framework_MockObject_Stub_Return $will
+     * The resoult of the find call
+     */
+    private function _initPageService($will)
+    {
+        $content = $this->getRequestParam('content');
+        $language = $this->getRequestParam('language');
+
+        $service = $this->getMock('Default_Page_Service', array('find'));
+        $service->expects($this->once())
+                ->method('find')
+                ->with($content, $language)
+                ->will($will);
+
+        Light_Service_Abstract::setService($service, 'Page', 'Default');
+    }
+
+    /**
+     * Tests if controller calls page service with proper arguments
+     * and sets up view->page field
+     */
+    public function testShowCallsServiceFind()
+    {
+        $page = $this->getMock('Default_Model_Page');
+        $this->_initPageService($this->returnValue($page));
 
         //$view = $this->getMock('Zend_View');
         //mocking zend_view doesn't work becouse of a mocked __set()
         $view = new Zend_View();
-        $controller->view = $view;
+        $this->controller->view = $view;
 
-        $controller->showAction();
+        $this->controller->showAction();
 
         $this->assertEquals(
             $page,
@@ -109,30 +132,11 @@ class Application_Modules_Default_Controllers_PageTest
      */
     public function testShowThrowsNotFound()
     {
-        $content = $this->getRequestParam('content');
-        $language = $this->getRequestParam('language');
-
-        $service = $this->getMock('Default_Page_Service', array('find'));
-        $service->expects($this->once())
-                ->method('find')
-                ->will($this->throwException(new Light_Exception_NotFound()));
-
-        Light_Service_Abstract::setService($service, 'Page', 'Default');
-
-        $request = $this->getMock(
-            'Zend_Controller_Request_Abstract',
-            array('getParam')
+        $this->_initPageService(
+            $this->throwException(new Light_Exception_NotFound())
         );
 
-        $request->expects($this->any())
-                ->method('getParam')
-                ->will($this->returnCallback(array($this, 'getRequestParam')));
-
-        $response = $this->getMock('Zend_Controller_Response_Abstract');
-
-        $controller = new Default_PageController($request, $response);
-
-        $controller->showAction();
+        $this->controller->showAction();
     }
 
     /**
@@ -142,29 +146,8 @@ class Application_Modules_Default_Controllers_PageTest
      */
     public function testShowThrowsInternalError()
     {
-        $content = $this->getRequestParam('content');
-        $language = $this->getRequestParam('language');
+        $this->_initPageService($this->throwException(new Light_Exception()));
 
-        $service = $this->getMock('Default_Page_Service', array('find'));
-        $service->expects($this->once())
-                ->method('find')
-                ->will($this->throwException(new Light_Exception()));
-
-        Light_Service_Abstract::setService($service, 'Page', 'Default');
-
-        $request = $this->getMock(
-            'Zend_Controller_Request_Abstract',
-            array('getParam')
-        );
-
-        $request->expects($this->any())
-                ->method('getParam')
-                ->will($this->returnCallback(array($this, 'getRequestParam')));
-
-        $response = $this->getMock('Zend_Controller_Response_Abstract');
-
-        $controller = new Default_PageController($request, $response);
-
-        $controller->showAction();
+        $this->controller->showAction();
     }
 }
