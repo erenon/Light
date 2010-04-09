@@ -50,10 +50,30 @@
 	<!-- 
 	Builds the project
 	- searches for php files and inject license text
+	- creates lightweight tar; light-basic.tar
 	 -->
 	<target name="build">
 		<exec executable="php" dir="${basedir}/build">
 			<arg line="injectLicense.php" />
 		</exec>
+		
+		<tar destfile="${basedir}/light-basic.tar">
+          <tarfileset dir="${basedir}"
+                      fullpath="README"
+                      preserveLeadingSlashes="true">
+            <include name="README.md"/>
+          </tarfileset>
+          <tarfileset dir="${basedir}"
+                      preserveLeadingSlashes="true">
+            <exclude name="README.md" />
+            <exclude name="TODO" />
+            <exclude name="build/" />
+            <exclude name="docs/" />
+            <exclude name="tests/" />
+            <exclude name=".git/" />
+            <exclude name=".gitignore" />
+            <exclude name=".project" />
+          </tarfileset>
+        </tar>
 	</target>
 </project>
