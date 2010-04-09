@@ -114,7 +114,9 @@ class Application_Modules_Default_Models_PageFileMapperTest
      * @uses contentProvider
      * @dataProvider contentProvider
      */
-    public function testFind($contentAlias, $lang, $title, $content, $fileContent)
+    public function testFind(
+        $contentAlias, $lang, $title, $content, $fileContent
+    )
     {
         //setup vfs
         $directoryRoot = $this->_getVirtualFsRoot('directoryRoot');
@@ -305,7 +307,9 @@ class Application_Modules_Default_Models_PageFileMapperTest
      *
      * @dataProvider contentProvider
      */
-    public function testSave($contentAlias, $lang, $title, $content, $fileContent)
+    public function testSave(
+        $contentAlias, $lang, $title, $content, $fileContent
+    )
     {
         $model = new Default_Model_Page();
         $model->setAlias($contentAlias)
