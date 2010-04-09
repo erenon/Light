@@ -1,6 +1,6 @@
 <?php
 /**
- * Page controller
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Page
@@ -12,8 +12,9 @@
 
 require_once 'Zend/Controller/Action.php';
 
-
 /**
+ * Page controller
+ *
  * Provides CRUD on simple Page models
  *
  * @category Light
@@ -31,6 +32,9 @@ class Default_PageController extends Zend_Controller_Action
      * Interacts with the Page service via it's find method,
      * gets the requested page by content and language,
      * sets up the returned page to view->page
+     *
+     * @throws Light_Exception_NotFound If the requested page doesn't exist
+     * @throws Light_Exception on internal error
      */
     public function showAction()
     {
