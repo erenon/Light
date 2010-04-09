@@ -46,4 +46,14 @@
 				-d ./"/>
 		</exec>
 	</target>
+	
+	<!-- 
+	Builds the project
+	- searches for php files and inject license text
+	 -->
+	<target name="build">
+		<exec executable="php" dir="${basedir}/build">
+			<arg line="injectLicense.php" />
+		</exec>
+	</target>
 </project>
