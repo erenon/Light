@@ -41,6 +41,20 @@ class Default_Model_PageFileMapper
      */
     protected $_directoryRoot;
 
+    public function __construct()
+    {
+        //@todo clean the hardcoded path
+        $this->setDirectoryRoot(
+            realpath(
+                APPLICATION_PATH .
+                DIRECTORY_SEPARATOR .
+                '..' .
+                DIRECTORY_SEPARATOR .
+                'pages'
+            )
+        );
+    }
+
     /**
      * Sets the directory root
      *
@@ -85,6 +99,14 @@ class Default_Model_PageFileMapper
         return $file;
     }
 
+
+    /**
+     * Filters malicious language names
+     * to prevent directory traversals, R/LFI, etc.
+     *
+     * @param string $lang
+     * @return string filtered language
+     */
     public function filterLanguage($lang)
     {
         $filtered = preg_replace('/[^a-zA-Z0-9_\-]*/', '', $lang);
