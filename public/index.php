@@ -13,12 +13,29 @@
  * @author erenon
  */
 
-echo "
-This is the index page of Project:Light. <br/>\n
-This page should be accessible through localhost/light/ url,
-without public/ or index.php
-";
+// Define path to application directory
+defined('APPLICATION_PATH')
+    || define(
+        'APPLICATION_PATH',
+        realpath(dirname(__FILE__) . '/../application')
+    );
 
-var_dump($_GET);
+// Define application environment
+if ( ! defined('APPLICATION_ENV')) {
+    if (getenv('APPLICATION_ENV')) {
+        define('APPLICATION_ENV', getenv('APPLICATION_ENV'));
+    } else {
+        define('APPLICATION_ENV', 'production');
+    }
+}
 
-echo getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production';
+/** Zend_Application */
+require_once 'Zend/Application.php';
+
+// Create application, bootstrap, and run
+$application = new Zend_Application(
+    APPLICATION_ENV,
+    APPLICATION_PATH . '/configs/config.php'
+);
+$application->bootstrap()
+            ->run();
