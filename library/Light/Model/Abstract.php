@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract model class
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Library
@@ -9,7 +9,6 @@
  * @version    $Id:$
  * @author erenon
  */
-
 
 /**
  * Abstract model class

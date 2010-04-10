@@ -1,5 +1,7 @@
 <?php
 /**
+ * $LICENSE$
+ *
  * Setup test environment
  *
  * @category   Light

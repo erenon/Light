@@ -1,6 +1,6 @@
 <?php
 /**
- * Default_Model_Page test
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Test

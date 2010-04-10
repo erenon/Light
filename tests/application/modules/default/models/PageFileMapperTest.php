@@ -1,6 +1,6 @@
 <?php
 /**
- * Page File Mapper test
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Test

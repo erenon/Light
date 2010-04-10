@@ -1,6 +1,6 @@
 <?php
 /**
- * Default_PageController test
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Test
@@ -15,7 +15,7 @@ require_once 'Light/Service/Abstract.php';
 require_once 'Light/Test/ControllerTestCase.php';
 
 /**
- * Default_PageController test
+ * Default_PageController test suite
  *
  * @category Light
  * @package Light_Test

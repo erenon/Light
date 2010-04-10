@@ -1,6 +1,6 @@
 <?php
 /**
- * Not found exception
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Library
@@ -12,6 +12,16 @@
 
 require_once 'Light/Exception.php';
 
+/**
+ * Not found exception
+ *
+ * @category   Light
+ * @package    Light_Library
+ * @subpackage Exception
+ * @license    New BSD License
+ * @version    $Id:$
+ * @author erenon
+ */
 class Light_Exception_NotFound extends Light_Exception
 {
 }

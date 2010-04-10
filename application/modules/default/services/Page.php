@@ -1,6 +1,6 @@
 <?php
 /**
- * Page Service
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Page

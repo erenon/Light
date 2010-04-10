@@ -1,6 +1,6 @@
 <?php
 /**
- * Page Model
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Page

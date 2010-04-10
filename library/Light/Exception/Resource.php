@@ -1,8 +1,6 @@
 <?php
 /**
- * Resource exception
- *
- * Usecases: file/dir not writable, database, socket not accessible
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Library
@@ -14,6 +12,18 @@
 
 require_once 'Light/Exception.php';
 
+/**
+ * Resource exception
+ *
+ * Usecases: file/dir not writable, database, socket not accessible
+ *
+ * @category   Light
+ * @package    Light_Library
+ * @subpackage Exception
+ * @license    New BSD License
+ * @version    $Id:$
+ * @author erenon
+ */
 class Light_Exception_Resource extends Light_Exception
 {
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Page Database Mapper
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Page

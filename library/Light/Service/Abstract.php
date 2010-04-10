@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract Service
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Library

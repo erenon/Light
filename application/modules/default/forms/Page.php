@@ -1,6 +1,6 @@
 <?php
 /**
- * Simple form to create and edit Pages
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Page

@@ -1,6 +1,6 @@
 <?php
 /**
- * Wrapper class to implement some common methods
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Library

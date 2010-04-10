@@ -1,6 +1,6 @@
 <?php
 /**
- * Library Service Abstract test
+ * $LICENSE$
  *
  * @category   Light
  * @package    Light_Test

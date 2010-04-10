@@ -1,9 +1,10 @@
 <?php
 /**
+ * $LICENSE$
+ *
  * Index page
  *
  * The only way in
- *
  *
  * @category   Light
  * @package    Light_Application
