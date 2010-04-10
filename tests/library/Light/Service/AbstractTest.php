@@ -23,6 +23,8 @@ require_once 'Light/Service/Abstract.php';
  *
  * @group Light_Library
  *
+ * @todo add test for class not found
+ *
  */
 class Library_Light_Service_AbstractTest
       extends PHPUnit_Framework_TestCase

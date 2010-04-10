@@ -12,6 +12,8 @@
 
 require_once 'Zend/Controller/Action.php';
 
+require_once 'Light/Service/Abstract.php';
+
 /**
  * Page controller
  *

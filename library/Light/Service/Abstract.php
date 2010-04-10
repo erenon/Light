@@ -23,6 +23,8 @@
  * @license New BSD License
  * @author erenon
  *
+ * @todo throw exception if class not found
+ *
  */
 class Light_Service_Abstract
 {
@@ -31,7 +33,7 @@ class Light_Service_Abstract
     public static function getService($serviceName, $module)
     {
         if ( ! isset(self::$_services[$module][$serviceName])) {
-            $this->_includeClass($serviceName, $module);
+            self::_includeClass($serviceName, $module);
             $className = $module . '_Service_' . $serviceName;
             self::setService(new $className(), $serviceName, $module);
         }
@@ -47,12 +49,13 @@ class Light_Service_Abstract
     private static function _includeClass($serviceName, $module)
     {
         $fileName = $serviceName . ".php";
+        $moduleDir = strtolower($module);
 
         require_once APPLICATION_PATH .
             DIRECTORY_SEPARATOR .
             'modules' .
             DIRECTORY_SEPARATOR .
-            $module .
+            $moduleDir .
             DIRECTORY_SEPARATOR .
             'services' .
             DIRECTORY_SEPARATOR .
