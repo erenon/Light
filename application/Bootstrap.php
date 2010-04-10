@@ -36,4 +36,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $this->getContainer()->{'defaultAutoloader'} = $autoloader;
     }
+
+    protected function _initDebug()
+    {
+        if ('development' !== APPLICATION_ENV) {
+            return;
+        }
+
+        $logger = new Zend_Log();
+        $writer = new Zend_Log_Writer_Firebug();
+        $logger->addWriter($writer);
+
+        Zend_Registry::set('logger', $logger);
+    }
 }
