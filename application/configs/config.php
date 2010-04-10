@@ -24,6 +24,9 @@ return array_merge_recursive(
                 'throwerrors' => false,
                 'env' => APPLICATION_ENV
             ),
+            'router' => array(
+            	'routes' => include dirname(__FILE__) . '/routes.config.php'
+            ),
         ),
         'includePaths'    => array(
             'library' => APPLICATION_PATH . '/../library/'
