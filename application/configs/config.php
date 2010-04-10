@@ -24,6 +24,20 @@ return array_merge_recursive(
                 'throwerrors' => false,
                 'env' => APPLICATION_ENV
             ),
+        ),
+        'includePaths'    => array(
+            'library' => APPLICATION_PATH . '/../library/'
+        ),
+        'bootstrap'    => array(
+            'path' => APPLICATION_PATH . '/Bootstrap.php',
+            'class' => 'Bootstrap'
+        ),
+        'phpSettings'    => array(
+            'display_startup_errors' => 0,
+            'display_errors' => 0
+        ),
+        'autoloaderNamespaces' => array(
+        	'Light_'
         )
     ),
     include dirname(__FILE__) . '/' . APPLICATION_ENV . '.config.php'
